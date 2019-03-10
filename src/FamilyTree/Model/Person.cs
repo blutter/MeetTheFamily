@@ -54,8 +54,8 @@ namespace FamilyTree.Model
         public string Name => _name;
         public Gender Gender => _gender;
 
-        bool IsMale => Gender == Gender.Male;
-        bool IsFemale => !IsMale;
+        public bool IsMale => Gender == Gender.Male;
+        public bool IsFemale => !IsMale;
 
         bool HasSpouse => Spouse != null;
 
