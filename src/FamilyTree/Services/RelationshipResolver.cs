@@ -21,7 +21,7 @@ namespace FamilyTree.Services
                     return GetRelations(person, Relationship.Siblings)
                         .Where(sibling => (sibling.IsFemale && sibling.Spouse != null))
                         .Select(sister => sister.Spouse)
-                        .Concat((person.Spouse == null || person.Spouse.Mother == null) ?
+                        .Concat((person.Spouse?.Mother == null) ?
                             new List<Person>() :
                             GetRelations(person.Spouse, Relationship.Siblings).Where(spouseSibling => spouseSibling.IsMale));
                 default:
