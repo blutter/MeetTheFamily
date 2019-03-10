@@ -68,5 +68,7 @@ namespace FamilyTree.Model
         {
             Spouse = spouse;
         }
+
+        public bool Equals(Person person) => person.Name == Name;
     }
 }

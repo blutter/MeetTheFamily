@@ -16,7 +16,7 @@ namespace FamilyTree.Services
                 case Relationship.Daughters:
                     return person.Children.Where(child => child.IsFemale);
                 case Relationship.Siblings:
-                    return person.Mother.Children.Where(mothersChild => mothersChild.Name != person.Name);
+                    return person.Mother.Children.Where(mothersChild => !mothersChild.Equals(person));
                 default:
                     throw new NotImplementedException($"Unsupported relationship {relationship}");
                     break;
