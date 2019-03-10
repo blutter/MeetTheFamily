@@ -7,7 +7,7 @@ namespace FamilyTree.Services
 {
     public class RelationshipResolver : IRelationshipResolver
     {
-        IEnumerable<Person> IRelationshipResolver.GetRelations(Person person, Relationship relationship)
+        public IEnumerable<Person> GetRelations(Person person, Relationship relationship)
         {
             switch (relationship)
             {
@@ -16,11 +16,14 @@ namespace FamilyTree.Services
                 case Relationship.Daughters:
                     return person.Children.Where(child => child.IsFemale);
                 case Relationship.Siblings:
-                    return person.Mother.Children.Where(mothersChild => !mothersChild.Equals(person));
+                    return person.Mother.Children.Where(sibling => !sibling.Equals(person));
                 case Relationship.BrotherInLaws:
-                    return person.Mother.Children
-                        .Where(mothersChild => (mothersChild.IsFemale && mothersChild.Spouse != null))
-                        .Select(sister => sister.Spouse);
+                    return GetRelations(person, Relationship.Siblings)
+                        .Where(sibling => (sibling.IsFemale && sibling.Spouse != null))
+                        .Select(sister => sister.Spouse)
+                        .Concat((person.Spouse == null || person.Spouse.Mother == null) ?
+                            new List<Person>() :
+                            GetRelations(person.Spouse, Relationship.Siblings).Where(spouseSibling => spouseSibling.IsMale));
                 default:
                     throw new NotImplementedException($"Unsupported relationship {relationship}");
                     break;
