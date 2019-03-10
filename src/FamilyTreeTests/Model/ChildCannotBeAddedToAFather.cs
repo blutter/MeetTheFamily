@@ -44,9 +44,10 @@ namespace FamilyTreeTests.Model
         }
 
         [Fact]
-        void ThenAnExceptionWasThrown()
+        void ThenAnExceptionIsThrown()
         {
             _exception.Should().BeOfType<InvalidOperationException>();
+            _exception.Message.Should().Contain("Cannot create child for male");
         }
     }
 }

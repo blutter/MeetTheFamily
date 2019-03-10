@@ -1,20 +1,19 @@
 ﻿using FamilyTree.Model;
 using FluentAssertions;
-using SpecsFor.StructureMap;
 using Xunit;
 
 namespace FamilyTreeTests.Model
 {
-    public class PersonEntityCreationTests : SpecsFor<Person>
+    public class PersonEntityCreationTests
     {
         private Person _person;
 
         public PersonEntityCreationTests()
         {
-            When();
+            WhenAPersonIsCreated();
         }
 
-        protected override void When()
+        void WhenAPersonIsCreated()
         {
             _person = Person.Create("John Doe", Gender.Male);
         }

@@ -21,7 +21,7 @@ namespace FamilyTree.Model
 
         public static Person CreateChild(Person mother, string name, Gender gender)
         {
-            if (mother.IsFemale())
+            if (mother.IsFemale && mother.HasSpouse)
             {
                 var child = new Person(name, gender, mother, mother.Spouse);
                 mother.AddChild(child);
@@ -32,7 +32,10 @@ namespace FamilyTree.Model
             }
             else
             {
-                throw new InvalidOperationException($"Cannot create child for male person {mother.Name}");
+                var message = !mother.HasSpouse ?
+                    $"Cannot create child for person {mother.Name} without a spouse" :
+                    $"Cannot create child for male person {mother.Name}";
+                throw new InvalidOperationException(message);
             }
         }
 
@@ -51,8 +54,10 @@ namespace FamilyTree.Model
         public string Name => _name;
         public Gender Gender => _gender;
 
-        bool IsMale() => Gender == Gender.Male;
-        bool IsFemale() => !IsMale();
+        bool IsMale => Gender == Gender.Male;
+        bool IsFemale => !IsMale;
+
+        bool HasSpouse => Spouse != null;
 
         private void AddChild(Person child)
         {
