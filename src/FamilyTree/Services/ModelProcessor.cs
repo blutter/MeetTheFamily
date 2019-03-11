@@ -27,17 +27,20 @@ namespace FamilyTree.Services
 
         public ModelProcessor(IPersonLookupCache personLookupCache,
             IRelationshipResolver relationshipResolver,
-            string referenceResourceName = "FamilyTree.ReferenceModel.arthur-clan.txt")
+            string referenceResourceName = "FamilyTree.ReferenceModel.arthur-clan.txt",
+            Type assemblyWithTypeForReferenceResource = null)
         {
             _personLookupCache = personLookupCache;
             _relationshipResolver = relationshipResolver;
 
-            InitializeModelFromResource(referenceResourceName);
+            InitializeModelFromResource(assemblyWithTypeForReferenceResource, referenceResourceName);
         }
 
-        private void InitializeModelFromResource(string referenceResourceName)
+        private void InitializeModelFromResource(Type assemblyWithTypeForReferenceResource, string referenceResourceName)
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            var assembly = assemblyWithTypeForReferenceResource == null
+                ? Assembly.GetExecutingAssembly()
+                : Assembly.GetAssembly(assemblyWithTypeForReferenceResource);
 
             using (var stream = assembly.GetManifestResourceStream(referenceResourceName))
             using (var reader = new StreamReader(stream))
@@ -157,7 +160,7 @@ namespace FamilyTree.Services
             }
             else
             {
-                throw new InvalidOperationException($"Person named {name} is unknown");
+                throw new PersonUnknownException($"Person named {name} is unknown");
             }
         }
 
@@ -175,16 +178,27 @@ namespace FamilyTree.Services
                 var child = Person.CreateChild(mother, childName, gender);
                 _personLookupCache.AddPerson(child);
             }
+            else if (mother == null)
+            {
+                throw new PersonUnknownException($"Mother named {motherName} is unknown");
+            }
             else
             {
-                throw new InvalidOperationException($"Mother named {motherName} is unknown");
+                throw new ChildAdditonFailedException($"Cannot add child to male named {motherName}");
             }
         }
 
         public IEnumerable<Person> GetRelationsForPerson(string person, Relationship relationship)
         {
             var personEntity = _personLookupCache.GetPerson(person);
-            return _relationshipResolver.GetRelations(personEntity, relationship);
+            if (personEntity != null)
+            {
+                return _relationshipResolver.GetRelations(personEntity, relationship);
+            }
+            else
+            {
+                throw new PersonUnknownException($"Person named {person} is unknown");
+            }
         }
     }
 }

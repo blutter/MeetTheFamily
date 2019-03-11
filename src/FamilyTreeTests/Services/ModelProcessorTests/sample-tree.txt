@@ -1,0 +1,3 @@
+﻿ADD_ADAM Patriarch
+ADD_SPOUSE Patriarch Matriarch
+ADD_CHILD Matriarch Kiddo Male

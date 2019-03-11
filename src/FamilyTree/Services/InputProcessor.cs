@@ -93,8 +93,10 @@ namespace FamilyTree.Services
                             {
                                 _modelProcessor.AddChild(motherName, childName, gender);
                             }
+
                             Console.WriteLine("CHILD_ADDED");
                         }
+
                         break;
                     case Command.GetRelationship:
                         if (operands.Count == 2)
@@ -105,17 +107,26 @@ namespace FamilyTree.Services
                                 Enum.TryParse<Relationship>(relationshipStr.Replace("-", ""), out var relationship))
                             {
                                 var relations = _modelProcessor.GetRelationsForPerson(name, relationship).ToList();
-                                Console.WriteLine(relations.Count > 0 ? 
-                                    String.Join(" ", relations.Select(person => person.Name)):
-                                    "NONE");
+                                Console.WriteLine(relations.Count > 0
+                                    ? String.Join(" ", relations.Select(person => person.Name))
+                                    : "NONE");
                             }
                         }
+
                         break;
                     default:
                         ThrowInvalidCommand(command, operands);
                         break;
                 }
 
+            }
+            catch (ChildAdditonFailedException)
+            {
+                Console.WriteLine("CHILD_ADDITION_FAILED");
+            }
+            catch (PersonUnknownException)
+            {
+                Console.WriteLine("PERSON_NOT_FOUND");
             }
             catch (Exception e)
             {
