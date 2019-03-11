@@ -10,7 +10,6 @@ namespace FamilyTreeTests.Services.LookupCacheTests
     public class ExistingPersonCannotBeAdded
     {
         private readonly IPersonLookupCache _personLookupCache;
-        private readonly Person _foundPerson;
         private readonly Exception exception;
 
         public ExistingPersonCannotBeAdded()

@@ -36,7 +36,7 @@ namespace FamilyTreeTests.Services.RelationshipResolverTests
         {
             _relationshipResolver = new RelationshipResolver();
 
-            return _relationshipResolver.GetRelations(_parent, Relationship.Sons).ToList();
+            return _relationshipResolver.GetRelations(_parent, Relationship.Son).ToList();
         }
 
         [Fact]

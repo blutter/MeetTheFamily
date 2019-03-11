@@ -181,7 +181,8 @@ namespace FamilyTree.Services
 
         public IEnumerable<Person> GetRelationsForPerson(string person, Relationship relationship)
         {
-            throw new NotImplementedException();
+            var personEntity = _personLookupCache.GetPerson(person);
+            return _relationshipResolver.GetRelations(personEntity, relationship);
         }
     }
 }

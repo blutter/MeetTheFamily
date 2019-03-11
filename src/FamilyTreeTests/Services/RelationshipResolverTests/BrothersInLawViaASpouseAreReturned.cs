@@ -65,7 +65,7 @@ namespace FamilyTreeTests.Services.RelationshipResolverTests
         private List<Person> WhenTheBrotherInLawsAreQueried()
         {
             _relationshipResolver = new RelationshipResolver();
-            return _relationshipResolver.GetRelations(_child, Relationship.BrotherInLaws).ToList();
+            return _relationshipResolver.GetRelations(_child, Relationship.BrotherInLaw).ToList();
         }
 
         [Fact]

@@ -7,19 +7,19 @@ using Xunit;
 
 namespace FamilyTreeTests.Services.RelationshipResolverTests
 {
-    public class BrothersInLawForAFemaleAreReturned
+    public class SistersInLawAreReturned
     {
-        private readonly Person _female;
-        private readonly List<Person> _brotherInLaws;
+        private readonly Person _child;
+        private readonly List<Person> _sistersInLaw;
         private IRelationshipResolver _relationshipResolver;
 
-        public BrothersInLawForAFemaleAreReturned()
+        public SistersInLawAreReturned()
         {
-            _female = GivenAFemaleWithMarriedSiblings();
-            _brotherInLaws = WhenTheBrotherInLawsAreQueried();
+            _child = GivenAChildWithMarriedSiblings();
+            _sistersInLaw = WhenTheSisterInLawsAreQueried();
         }
 
-        private Person GivenAFemaleWithMarriedSiblings()
+        private Person GivenAChildWithMarriedSiblings()
         {
             var parent = Person.Create("Eve", Gender.Female);
             parent.SetSpouse(Person.Create("Adam", Gender.Male));
@@ -28,9 +28,7 @@ namespace FamilyTreeTests.Services.RelationshipResolverTests
             var brotherInLaw1 = Person.Create("Anthony", Gender.Male);
             marriedSister.SetSpouse(brotherInLaw1);
 
-            var female = Person.CreateChild(parent, "Barbara", Gender.Female);
-            var spouse = Person.Create("Bob", Gender.Male);
-            female.SetSpouse(spouse);
+            var child = Person.CreateChild(parent, "Bob", Gender.Male);
 
             var marriedBrother = Person.CreateChild(parent, "Christopher", Gender.Male);
             var sisterInLaw = Person.Create("Carol", Gender.Female);
@@ -40,33 +38,27 @@ namespace FamilyTreeTests.Services.RelationshipResolverTests
             var brotherInLaw2 = Person.Create("Doug", Gender.Male);
             marriedSister2.SetSpouse(brotherInLaw2);
 
-            return female;
+            return child;
         }
 
-        private List<Person> WhenTheBrotherInLawsAreQueried()
+        private List<Person> WhenTheSisterInLawsAreQueried()
         {
             _relationshipResolver = new RelationshipResolver();
-            return _relationshipResolver.GetRelations(_female, Relationship.BrotherInLaw).ToList();
+            return _relationshipResolver.GetRelations(_child, Relationship.SisterInLaw).ToList();
         }
 
         [Fact]
-        public void ThenAllTheBrotherInLawsAreReturned()
+        public void ThenTheSpousesSistersAreReturned()
         {
-            _brotherInLaws.Count.Should().Be(2);
-            _brotherInLaws.Should().OnlyContain(person => person.Gender == Gender.Male);
-        }
-
-        [Fact]
-        public void ThenTheFemalesSpouseIsNotABrotherInLaw()
-        {
-            _brotherInLaws.Where(brother => brother.Name == "Bob").Should().BeEmpty();
+            _sistersInLaw.Count.Should().Be(1);
+            _sistersInLaw.Should().OnlyContain(person => person.Gender == Gender.Female);
         }
 
         [Fact]
         public void ThenTheBrotherInLawsAreReturnedInTheOrderTheirSpousesWereAdded()
         {
-            _brotherInLaws.First().Should().Match<Person>(person => person.Name == "Anthony");
-            _brotherInLaws.Last().Should().Match<Person>(person => person.Name == "Doug");
+            _sistersInLaw.Select(inLaw => inLaw.Name).First().Should().Contain("Carol");
         }
+
     }
 }

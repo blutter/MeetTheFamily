@@ -2,14 +2,14 @@
 {
     public enum Relationship
     {
-        Sons,
-        Daughters,
+        Son,
+        Daughter,
         Siblings,
-        BrotherInLaws,
-        SisterInLaws,
-        MaternalAunts,
-        PaternalAunts,
-        MaternalUncles,
+        BrotherInLaw,
+        SisterInLaw,
+        MaternalAunt,
+        PaternalAunt,
+        MaternalUncle,
         PaternalUncle
     }
 }

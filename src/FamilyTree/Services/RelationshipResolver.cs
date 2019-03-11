@@ -11,19 +11,25 @@ namespace FamilyTree.Services
         {
             switch (relationship)
             {
-                case Relationship.Sons:
+                case Relationship.Son:
                     return person.Children.Where(child => child.IsMale);
-                case Relationship.Daughters:
+                case Relationship.Daughter:
                     return person.Children.Where(child => child.IsFemale);
                 case Relationship.Siblings:
-                    return person.Mother.Children.Where(sibling => !sibling.Equals(person));
-                case Relationship.BrotherInLaws:
+                    return (person.Mother != null) ? 
+                        person.Mother.Children.Where(sibling => !sibling.Equals(person)) :
+                        new List<Person>();
+                case Relationship.BrotherInLaw:
                     return GetRelations(person, Relationship.Siblings)
                         .Where(sibling => (sibling.IsFemale && sibling.Spouse != null))
                         .Select(sister => sister.Spouse)
                         .Concat((person.Spouse?.Mother == null) ?
                             new List<Person>() :
                             GetRelations(person.Spouse, Relationship.Siblings).Where(spouseSibling => spouseSibling.IsMale));
+                case Relationship.SisterInLaw:
+                    return GetRelations(person, Relationship.Siblings)
+                        .Where(sibling => (sibling.IsMale && sibling.Spouse != null))
+                        .Select(sibling => sibling.Spouse);
                 default:
                     throw new NotImplementedException($"Unsupported relationship {relationship}");
                     break;
