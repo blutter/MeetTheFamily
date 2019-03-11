@@ -1,5 +1,4 @@
-﻿using System;
-using FamilyTree.Services;
+﻿using FamilyTree.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MeetTheFamily
@@ -8,11 +7,14 @@ namespace MeetTheFamily
     {
         static void Main(string[] args)
         {
-            var serviceProvider = Startup.Initialize(args[0]);
+            if (args.Length >= 1)
+            {
+                var serviceProvider = Startup.Initialize(args[0]);
 
-            var inputProcessor = serviceProvider.GetService<IInputProcessor>();
+                var inputProcessor = serviceProvider.GetService<IInputProcessor>();
 
-            inputProcessor.ProcessInput();
+                inputProcessor.ProcessInput();
+            }
         }
     }
 }
