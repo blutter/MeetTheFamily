@@ -1,10 +1,10 @@
-ADD_ADAM Arthur
-ADD_SPOUSE Arthur Margret
-ADD_CHILD Margret Bill Male
-ADD_CHILD Margret Charlie Male
-ADD_CHILD Margret Percy Male
-ADD_CHILD Margret Ronald Male
-ADD_CHILD Margret Ginerva Female
+ADD_ADAM "King Arthur"
+ADD_SPOUSE "King Arthur" "Queen Margret"
+ADD_CHILD "Queen Margret" Bill Male
+ADD_CHILD "Queen Margret" Charlie Male
+ADD_CHILD "Queen Margret" Percy Male
+ADD_CHILD "Queen Margret" Ronald Male
+ADD_CHILD "Queen Margret" Ginerva Female
 ADD_SPOUSE Bill Flora
 ADD_CHILD Flora Victoire Female
 ADD_CHILD Flora Dominique Female
