@@ -7,13 +7,13 @@ using Xunit;
 
 namespace FamilyTreeTests.Services.RelationshipResolverTests
 {
-    public class SiblingsAreReturned
+    public class MaternalAuntsAreReturned
     {
         private readonly Person _child;
         private readonly List<Person> _siblings;
         private IRelationshipResolver _relationshipResolver;
 
-        public SiblingsAreReturned()
+        public MaternalAuntsAreReturned()
         {
             _child = GivenAChildWithSiblings();
             _siblings = WhenTheSiblingsOfAChildAreQueried();

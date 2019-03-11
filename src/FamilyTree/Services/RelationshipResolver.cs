@@ -33,6 +33,18 @@ namespace FamilyTree.Services
                         .Concat(person.Spouse?.Mother == null ?
                             new List<Person>() : 
                             GetRelations(person.Spouse, Relationship.Siblings).Where(spouseSibling => spouseSibling.IsFemale));
+                case Relationship.MaternalAunt:
+                    return GetRelations(person.Mother, Relationship.Siblings)
+                        .Where(sibling => sibling.IsFemale);
+                case Relationship.PaternalAunt:
+                    return GetRelations(person.Father, Relationship.Siblings)
+                        .Where(sibling => sibling.IsFemale);
+                case Relationship.MaternalUncle:
+                    return GetRelations(person.Mother, Relationship.Siblings)
+                        .Where(sibling => sibling.IsMale);
+                case Relationship.PaternalUncle:
+                    return GetRelations(person.Father, Relationship.Siblings)
+                        .Where(sibling => sibling.IsMale);
                 default:
                     throw new NotImplementedException($"Unsupported relationship {relationship}");
                     break;

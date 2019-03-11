@@ -81,10 +81,7 @@ namespace FamilyTreeTests.Services.ModelProcessorTests
             var ronaldsSisterInLaws = _modelProcessor.GetRelationsForPerson("Ronald", Relationship.SisterInLaw);
 
             // ASSERT
-            ronaldsSisterInLaws.First()
-                .Should().Match<Person>(person => person.Name == "Flora" && person.IsMale);
-            ronaldsSisterInLaws.Skip(1).First()
-                .Should().Match<Person>(person => person.Name == "Audrey" && person.IsMale);
+            ronaldsSisterInLaws.Select(person => person.Name).Should().ContainInOrder("Flora", "Audrey");
 
             ronaldsSisterInLaws.All(son => son.IsFemale).Should().BeTrue();
             ronaldsSisterInLaws.Count().Should().Be(2);
