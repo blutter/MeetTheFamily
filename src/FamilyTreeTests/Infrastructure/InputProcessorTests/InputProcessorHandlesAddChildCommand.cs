@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using FamilyTree.Model;
 using FamilyTree.Services;
+using FamilyTree.Services.InputHandling;
+using FamilyTree.Services.ModelProcessing;
 using Moq;
 using Xunit;
 

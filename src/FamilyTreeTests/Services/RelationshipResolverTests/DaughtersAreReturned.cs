@@ -3,6 +3,7 @@ using FamilyTree.Services;
 using FluentAssertions;
 using System.Collections.Generic;
 using System.Linq;
+using FamilyTree.Services.Relationships;
 using Xunit;
 
 namespace FamilyTreeTests.Services.RelationshipResolverTests

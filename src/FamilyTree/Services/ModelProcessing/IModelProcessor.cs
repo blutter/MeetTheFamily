@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using FamilyTree.Model;
+using FamilyTree.Services.Relationships;
 
-namespace FamilyTree.Services
+namespace FamilyTree.Services.ModelProcessing
 {
     public interface IModelProcessor
     {

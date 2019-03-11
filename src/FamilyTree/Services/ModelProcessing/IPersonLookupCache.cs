@@ -1,6 +1,6 @@
 using FamilyTree.Model;
 
-namespace FamilyTree.Services
+namespace FamilyTree.Services.ModelProcessing
 {
     public interface IPersonLookupCache
     {

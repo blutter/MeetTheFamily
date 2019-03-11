@@ -5,8 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using FamilyTree.Model;
+using FamilyTree.Services.Relationships;
 
-namespace FamilyTree.Services
+namespace FamilyTree.Services.ModelProcessing
 {
     public class ModelProcessor : IModelProcessor
     {

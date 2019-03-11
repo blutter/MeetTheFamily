@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FamilyTree.Model;
+using FamilyTree.Services.ModelProcessing;
+using FamilyTree.Services.Relationships;
 
-namespace FamilyTree.Services
+namespace FamilyTree.Services.InputHandling
 {
     public class InputProcessor : IInputProcessor
     {

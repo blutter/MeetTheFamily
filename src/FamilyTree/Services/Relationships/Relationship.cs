@@ -1,4 +1,4 @@
-﻿namespace FamilyTree.Services
+﻿namespace FamilyTree.Services.Relationships
 {
     public enum Relationship
     {

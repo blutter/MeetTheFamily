@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FamilyTree.Services
+namespace FamilyTree.Services.ModelProcessing
 {
     public class PersonUnknownException : Exception
     {

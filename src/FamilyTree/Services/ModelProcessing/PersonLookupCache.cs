@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Data;
 using FamilyTree.Model;
 
-namespace FamilyTree.Services
+namespace FamilyTree.Services.ModelProcessing
 {
     public class PersonLookupCache : IPersonLookupCache
     {

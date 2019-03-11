@@ -1,7 +1,7 @@
-﻿using FamilyTree.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using FamilyTree.Model;
 
-namespace FamilyTree.Services
+namespace FamilyTree.Services.Relationships
 {
     public interface IRelationshipResolver
     {

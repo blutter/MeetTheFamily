@@ -2,6 +2,7 @@
 using System.Data;
 using FamilyTree.Model;
 using FamilyTree.Services;
+using FamilyTree.Services.ModelProcessing;
 using Should;
 using Xunit;
 

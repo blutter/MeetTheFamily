@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FamilyTree.Model;
 
-namespace FamilyTree.Services
+namespace FamilyTree.Services.Relationships
 {
     public class RelationshipResolver : IRelationshipResolver
     {

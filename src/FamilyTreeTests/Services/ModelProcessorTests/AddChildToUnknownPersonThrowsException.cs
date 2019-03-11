@@ -1,6 +1,8 @@
 ﻿using System;
 using FamilyTree.Model;
 using FamilyTree.Services;
+using FamilyTree.Services.ModelProcessing;
+using FamilyTree.Services.Relationships;
 using Should;
 using Xunit;
 
