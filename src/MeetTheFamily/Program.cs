@@ -6,7 +6,9 @@ namespace MeetTheFamily
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var serviceProvider = Startup.Initialize();
+
+
         }
     }
 }

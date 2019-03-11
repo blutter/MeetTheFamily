@@ -25,7 +25,9 @@ namespace FamilyTree.Services
             Invalid
         }
 
-        public ModelProcessor(IPersonLookupCache personLookupCache, IRelationshipResolver relationshipResolver, string referenceResourceName)
+        public ModelProcessor(IPersonLookupCache personLookupCache,
+            IRelationshipResolver relationshipResolver,
+            string referenceResourceName = "FamilyTree.ReferenceModel.arthur-clan.txt")
         {
             _personLookupCache = personLookupCache;
             _relationshipResolver = relationshipResolver;
