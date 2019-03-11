@@ -99,3 +99,7 @@ And `Relationship` is one of:
 - Paternal-Uncle
 
 Note: Only `Siblings` is pluralized here (to match the relationships table).
+
+# Notes on the Reference Family Tree
+
+The name `Victoire` is spelt `Victoire` and `Victorie` in the problem document. The spelling as illustrated in the family tree (`Victoire`) is used.
