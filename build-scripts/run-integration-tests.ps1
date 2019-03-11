@@ -2,7 +2,7 @@ $RuntimeProject = "$PSScriptRoot\..\src\MeetTheFamily\MeetTheFamily.csproj"
 $TestSamplePath = "$PSScriptRoot\..\test\samples"
 $TestOutputPath = "$PSScriptRoot\..\test\test-output"
 
-Remove-Item -LiteralPath $TestOutputPath -Force -Recurse
+Remove-Item -LiteralPath $TestOutputPath -Force -Recurse -ErrorAction Ignore
 New-Item $TestOutputPath -ItemType Directory -Force
 
 $InputFiles = Get-ChildItem "$TestSamplePath\*.input.txt"
