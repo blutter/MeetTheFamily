@@ -67,6 +67,10 @@ namespace FamilyTree.Model
         public void SetSpouse(Person spouse)
         {
             Spouse = spouse;
+            if (!spouse.HasSpouse)
+            {
+                spouse.SetSpouse(this);
+            }
         }
 
         public bool Equals(Person person) => person.Name == Name;

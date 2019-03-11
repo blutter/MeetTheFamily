@@ -4,4 +4,12 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="ReferenceModel\arthur-clan.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="ReferenceModel\arthur-clan.txt" />
+  </ItemGroup>
+
 </Project>
