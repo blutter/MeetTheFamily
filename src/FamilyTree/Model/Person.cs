@@ -5,15 +5,6 @@ namespace FamilyTree.Model
 {
     public class Person
     {
-        private readonly string _name;
-        private readonly Gender _gender;
-
-        public Person Mother { get; private set; }
-        public Person Father { get; private set; }
-
-        public Person Spouse { get; private set; }
-        public List<Person> Children { get; private set; } = new List<Person>();
-
         public static Person Create(string name, Gender gender)
         {
             return new Person(name, gender);
@@ -41,8 +32,8 @@ namespace FamilyTree.Model
 
         private Person(string name, Gender gender)
         {
-            _name = name;
-            _gender = gender;
+            Name = name;
+            Gender = gender;
         }
 
         private Person(string name, Gender gender, Person mother, Person father) : this(name, gender)
@@ -51,8 +42,14 @@ namespace FamilyTree.Model
             Father = father;
         }
 
-        public string Name => _name;
-        public Gender Gender => _gender;
+        public string Name { get; }
+        public Gender Gender { get; }
+
+        public Person Mother { get; }
+        public Person Father { get; }
+
+        public Person Spouse { get; private set; }
+        public List<Person> Children { get; } = new List<Person>();
 
         public bool IsMale => Gender == Gender.Male;
         public bool IsFemale => !IsMale;
