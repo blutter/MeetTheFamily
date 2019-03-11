@@ -47,7 +47,6 @@ namespace FamilyTree.Services.Relationships
                         .Where(sibling => sibling.IsMale);
                 default:
                     throw new NotImplementedException($"Unsupported relationship {relationship}");
-                    break;
             }
         }
     }
