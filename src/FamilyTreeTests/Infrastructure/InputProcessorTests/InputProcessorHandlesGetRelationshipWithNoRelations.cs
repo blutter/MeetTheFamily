@@ -9,13 +9,13 @@ using Xunit;
 
 namespace FamilyTreeTests.Infrastructure.InputProcessorTests
 {
-    public class InputProcessorHandlesGetRelationshipCommand
+    public class InputProcessorHandlesGetRelationshipWithNoRelations
     {
         private readonly IInputProcessor _inputProcessor;
         private Mock<TextWriter> _mockTextWriter;
         private Mock<IModelProcessor> _mockModelProcessor;
 
-        public InputProcessorHandlesGetRelationshipCommand()
+        public InputProcessorHandlesGetRelationshipWithNoRelations()
         {
             _inputProcessor = GivenTheInputProcessorUsingAFileWithAGetRelationshipCommand();
             WhenTheInputIsProcessed();
@@ -31,7 +31,7 @@ namespace FamilyTreeTests.Infrastructure.InputProcessorTests
             _mockModelProcessor
                 .Setup(modelProcessor => modelProcessor.GetRelationsForPerson(It.Is<string>(str => str == "Kid"),
                     It.Is<Relationship>(relationship => relationship == Relationship.Siblings)))
-                .Returns(new List<Person> { Person.Create("Brother", Gender.Male), Person.Create("Sister", Gender.Female) });
+                .Returns(new List<Person>());
 
             SetupTextWriterToCaptureConsoleOutput();
 
@@ -59,7 +59,7 @@ namespace FamilyTreeTests.Infrastructure.InputProcessorTests
         [Fact]
         public void ThenTheRelationsAppearInTheOutput()
         {
-            _mockTextWriter.Verify(textWriter => textWriter.WriteLine(It.Is<string>(str => str == "Brother Sister")),
+            _mockTextWriter.Verify(textWriter => textWriter.WriteLine(It.Is<string>(str => str == "NONE")),
                 Times.Once);
         }
     }
