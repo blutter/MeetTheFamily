@@ -1,41 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FamilyTree.Model;
-using FamilyTree.Services;
 using FamilyTree.Services.InputHandling;
 using FamilyTree.Services.ModelProcessing;
-using FamilyTree.Services.Relationships;
 using Moq;
 using Xunit;
 
-namespace FamilyTreeTests.Infrastructure.InputProcessorTests
+namespace FamilyTreeTests.Services.InputProcessorTests
 {
     [Collection("Sequential")]
-    public class InputProcessorHandlesGetSisterInLaw
+    public class InputProcessorHandlesAddChildWithMaleMother
     {
         private readonly IInputProcessor _inputProcessor;
         private Mock<TextWriter> _mockTextWriter;
         private Mock<IModelProcessor> _mockModelProcessor;
 
-        public InputProcessorHandlesGetSisterInLaw()
+        public InputProcessorHandlesAddChildWithMaleMother()
         {
-            _inputProcessor = GivenTheInputProcessorUsingAFileWithAGetSisterInLawCommand();
+            _inputProcessor = GivenTheInputProcessorQueryingWithAnUnknownPerson();
             WhenTheInputIsProcessed();
         }
 
-        private IInputProcessor GivenTheInputProcessorUsingAFileWithAGetSisterInLawCommand()
+        private IInputProcessor GivenTheInputProcessorQueryingWithAnUnknownPerson()
         {
             _mockModelProcessor = new Mock<IModelProcessor>();
 
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes("GET_RELATIONSHIP Person Sister-In-Law"));
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("ADD_CHILD Dad Kiddo Female"));
             Func<string, StreamReader> mockStreamReaderFactory = (string filename) => new StreamReader(stream);
 
             _mockModelProcessor
-                .Setup(modelProcessor => modelProcessor.GetRelationsForPerson(It.Is<string>(str => str == "Person"),
-                    It.Is<Relationship>(relationship => relationship == Relationship.SisterInLaw)))
-                .Returns(new List<Person> { Person.Create("SisterInLaw1", Gender.Female), Person.Create("SisterInLaw2", Gender.Female) });
+                .Setup(modelProcessor => modelProcessor.AddChild(It.IsAny<string>(),
+                    It.IsAny<string>(),
+                    It.IsAny<Gender>()))
+                .Throws(new ChildAdditonFailedException("oh oh"));
 
             SetupTextWriterToCaptureConsoleOutput();
 
@@ -54,16 +52,16 @@ namespace FamilyTreeTests.Infrastructure.InputProcessorTests
         }
 
         [Fact]
-        public void ThenAChildIsAdded()
+        public void ThenTheChildIsAdded()
         {
-            _mockModelProcessor.Verify(modelProcessor => modelProcessor.GetRelationsForPerson("Person", Relationship.SisterInLaw),
+            _mockModelProcessor.Verify(modelProcessor => modelProcessor.AddChild("Dad", "Kiddo", Gender.Female),
                 Times.Once);
         }
 
         [Fact]
-        public void ThenChildAddedAppearsInTheOutput()
+        public void ThenPersonNotFoundAppearsInTheOutput()
         {
-            _mockTextWriter.Verify(textWriter => textWriter.WriteLine(It.Is<string>(str => str == "SisterInLaw1 SisterInLaw2")),
+            _mockTextWriter.Verify(textWriter => textWriter.WriteLine(It.Is<string>(str => str == "CHILD_ADDITION_FAILED")),
                 Times.Once);
         }
     }

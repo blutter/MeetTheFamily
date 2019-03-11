@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FamilyTree.Model;
-using FamilyTree.Services;
 using FamilyTree.Services.InputHandling;
 using FamilyTree.Services.ModelProcessing;
 using FamilyTree.Services.Relationships;
 using Moq;
 using Xunit;
 
-namespace FamilyTreeTests.Infrastructure.InputProcessorTests
+namespace FamilyTreeTests.Services.InputProcessorTests
 {
     [Collection("Sequential")]
-    public class InputProcessorHandlesGetRelationshipWithNoRelations
+    public class InputProcessorHandlesGetRelationshipCommand
     {
         private readonly IInputProcessor _inputProcessor;
         private Mock<TextWriter> _mockTextWriter;
         private Mock<IModelProcessor> _mockModelProcessor;
 
-        public InputProcessorHandlesGetRelationshipWithNoRelations()
+        public InputProcessorHandlesGetRelationshipCommand()
         {
             _inputProcessor = GivenTheInputProcessorUsingAFileWithAGetRelationshipCommand();
             WhenTheInputIsProcessed();
@@ -35,7 +34,7 @@ namespace FamilyTreeTests.Infrastructure.InputProcessorTests
             _mockModelProcessor
                 .Setup(modelProcessor => modelProcessor.GetRelationsForPerson(It.Is<string>(str => str == "Kid"),
                     It.Is<Relationship>(relationship => relationship == Relationship.Siblings)))
-                .Returns(new List<Person>());
+                .Returns(new List<Person> { Person.Create("Brother", Gender.Male), Person.Create("Sister", Gender.Female) });
 
             SetupTextWriterToCaptureConsoleOutput();
 
@@ -63,7 +62,7 @@ namespace FamilyTreeTests.Infrastructure.InputProcessorTests
         [Fact]
         public void ThenTheRelationsAppearInTheOutput()
         {
-            _mockTextWriter.Verify(textWriter => textWriter.WriteLine(It.Is<string>(str => str == "NONE")),
+            _mockTextWriter.Verify(textWriter => textWriter.WriteLine(It.Is<string>(str => str == "Brother Sister")),
                 Times.Once);
         }
     }

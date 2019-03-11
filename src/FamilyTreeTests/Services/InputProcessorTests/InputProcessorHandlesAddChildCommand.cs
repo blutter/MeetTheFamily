@@ -2,39 +2,32 @@
 using System.IO;
 using System.Text;
 using FamilyTree.Model;
-using FamilyTree.Services;
 using FamilyTree.Services.InputHandling;
 using FamilyTree.Services.ModelProcessing;
 using Moq;
 using Xunit;
 
-namespace FamilyTreeTests.Infrastructure.InputProcessorTests
+namespace FamilyTreeTests.Services.InputProcessorTests
 {
     [Collection("Sequential")]
-    public class InputProcessorHandlesAddChildWithMaleMother
+    public class InputProcessorHandlesAddChildCommand
     {
         private readonly IInputProcessor _inputProcessor;
         private Mock<TextWriter> _mockTextWriter;
         private Mock<IModelProcessor> _mockModelProcessor;
 
-        public InputProcessorHandlesAddChildWithMaleMother()
+        public InputProcessorHandlesAddChildCommand()
         {
-            _inputProcessor = GivenTheInputProcessorQueryingWithAnUnknownPerson();
+            _inputProcessor = GivenTheInputProcessorUsingAFileWithAGetChildCommand();
             WhenTheInputIsProcessed();
         }
 
-        private IInputProcessor GivenTheInputProcessorQueryingWithAnUnknownPerson()
+        private IInputProcessor GivenTheInputProcessorUsingAFileWithAGetChildCommand()
         {
             _mockModelProcessor = new Mock<IModelProcessor>();
 
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes("ADD_CHILD Dad Kiddo Female"));
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("ADD_CHILD Mom Kid Female"));
             Func<string, StreamReader> mockStreamReaderFactory = (string filename) => new StreamReader(stream);
-
-            _mockModelProcessor
-                .Setup(modelProcessor => modelProcessor.AddChild(It.IsAny<string>(),
-                    It.IsAny<string>(),
-                    It.IsAny<Gender>()))
-                .Throws(new ChildAdditonFailedException("oh oh"));
 
             SetupTextWriterToCaptureConsoleOutput();
 
@@ -53,16 +46,16 @@ namespace FamilyTreeTests.Infrastructure.InputProcessorTests
         }
 
         [Fact]
-        public void ThenTheChildIsAdded()
+        public void ThenAChildIsAdded()
         {
-            _mockModelProcessor.Verify(modelProcessor => modelProcessor.AddChild("Dad", "Kiddo", Gender.Female),
+            _mockModelProcessor.Verify(modelProcessor => modelProcessor.AddChild("Mom", "Kid", Gender.Female),
                 Times.Once);
         }
 
         [Fact]
-        public void ThenPersonNotFoundAppearsInTheOutput()
+        public void ThenChildAddedAppearsInTheOutput()
         {
-            _mockTextWriter.Verify(textWriter => textWriter.WriteLine(It.Is<string>(str => str == "CHILD_ADDITION_FAILED")),
+            _mockTextWriter.Verify(textWriter => textWriter.WriteLine(It.Is<string>(str => str == "CHILD_ADDED")),
                 Times.Once);
         }
     }
