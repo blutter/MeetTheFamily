@@ -1,12 +1,11 @@
-﻿using FamilyTree.Model;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FamilyTree.Model;
 using FamilyTree.Services;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
-namespace FamilyTreeTests.Services.RelationshipResolverTests
+namespace FamilyTreeTests.Services.RelationshipResolverTests.InLaws
 {
     public class BrothersInLawViaASpouseAreReturned
     {
