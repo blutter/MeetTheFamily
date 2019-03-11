@@ -1,5 +1,4 @@
-﻿using FamilyTree.Services;
-using FamilyTree.Services.InputHandling;
+﻿using FamilyTree.Services.InputHandling;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MeetTheFamily
