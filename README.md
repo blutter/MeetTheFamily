@@ -14,7 +14,7 @@ The files are structured in the following directories:
 | test | Integration test files |
 
 
-# Environment Setup
+# Build and Environment Setup
 
 ## Pre-Requisites
 
@@ -41,3 +41,37 @@ The build, test and packaging scripts are:
 | build-scripts/package.ps1 | packages the solution into a zip file |
 
 
+# Code Overview
+
+## Assumptions
+
+- Only a single family tree is supported. This means the direct relations of spouse who are not direct descendents of Arthur/Margret are not included
+- Names are unique (the input mechanism can't distinguish between non-unique names)
+- Loops in the family tree are not supported (name uniqueness helps prevent this as well)
+- A person only ever has one partner
+- A mother must have a spouse before a child can be created
+
+## Model
+
+The core model is represented in `src/FamilyTree/Person.cs`. This entity models a Person with relationships to a Mother, Father and Children.
+
+## Finding Relations
+
+The `RelationshipResolver` encodes the algorithms to find relations for a given person.
+
+## Manipulating the Model
+
+The `ModelProcessor` manipulates the model to:
+- create the Arthur family tree as the reference model (encoded in the `src/ReferenceModel/arthur-clan.txt` file)
+- abstract the add child and get relationship operations on the model
+- ensures only unique names are allowed via the `PersonLookupCache`
+
+## Handling User Input
+
+The `InputProcessor` parses commands from standard input, interacts with the `ModelProcessor` and outputs to standard output.
+
+# Tests
+
+Tests are written in as combination of London and Chicago styles depending on the nature of the test.
+
+The `InputProcessor` outputs to the Console so its tests do not run in parallel.
