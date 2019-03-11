@@ -75,3 +75,27 @@ The `InputProcessor` parses commands from standard input, interacts with the `Mo
 Tests are written in as combination of London and Chicago styles depending on the nature of the test.
 
 The `InputProcessor` outputs to the Console so its tests do not run in parallel.
+
+# Running
+
+The following commands are supported:
+
+- `ADD_CHILD MothersName ChildsName Gender`
+- `GET_RELATIONSHIP Name Relationship`
+
+Where `Gender` is one of:
+- Female
+- Male
+
+And `Relationship` is one of:
+- Son
+- Daughter
+- Siblings
+- Brother-In-Law
+- Sister-In-Law
+- Maternal-Aunt
+- Paternal-Aunt
+- Maternal-Uncle
+- Paternal-Uncle
+
+Note: Only `Siblings` is pluralized here (to match the relationships table).
