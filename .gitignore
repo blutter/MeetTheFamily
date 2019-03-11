@@ -347,3 +347,7 @@ ASALocalRun/
 healthchecksdb
 
 # End of https://www.gitignore.io/api/csharp
+
+test/test-output/*
+*.ncrunchsolution
+launchSettings.json
