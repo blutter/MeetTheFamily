@@ -47,7 +47,7 @@ namespace FamilyTree.Services
         private List<string> SplitWordsInLine(string line)
         {
             return Regex
-                .Matches(line, @"(?<match>\w+)|\""(?<match>[\w\s]*)""")
+                .Matches(line, @"(?<match>[\w-]+)|\""(?<match>[\w\s-]*)""")
                 .Select(m => m.Groups["match"].Value)
                 .ToList();
         }
