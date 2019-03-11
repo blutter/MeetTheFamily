@@ -29,7 +29,10 @@ namespace FamilyTree.Services
                 case Relationship.SisterInLaw:
                     return GetRelations(person, Relationship.Siblings)
                         .Where(sibling => (sibling.IsMale && sibling.Spouse != null))
-                        .Select(sibling => sibling.Spouse);
+                        .Select(sibling => sibling.Spouse)
+                        .Concat(person.Spouse?.Mother == null ?
+                            new List<Person>() : 
+                            GetRelations(person.Spouse, Relationship.Siblings).Where(spouseSibling => spouseSibling.IsFemale));
                 default:
                     throw new NotImplementedException($"Unsupported relationship {relationship}");
                     break;

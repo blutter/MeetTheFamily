@@ -1,7 +1,6 @@
 ﻿using FamilyTree.Model;
 using FamilyTree.Services;
 using FluentAssertions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
