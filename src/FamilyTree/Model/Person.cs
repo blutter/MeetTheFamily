@@ -54,7 +54,7 @@ namespace FamilyTree.Model
         public bool IsMale => Gender == Gender.Male;
         public bool IsFemale => !IsMale;
 
-        bool HasSpouse => Spouse != null;
+        public bool HasSpouse => Spouse != null;
 
         private void AddChild(Person child)
         {

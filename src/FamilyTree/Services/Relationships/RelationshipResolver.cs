@@ -12,42 +12,98 @@ namespace FamilyTree.Services.Relationships
             switch (relationship)
             {
                 case Relationship.Son:
-                    return person.Children.Where(child => child.IsMale);
+                    return GetSons(person);
                 case Relationship.Daughter:
-                    return person.Children.Where(child => child.IsFemale);
+                    return GetDaughters(person);
                 case Relationship.Siblings:
-                    return (person.Mother != null) ? 
-                        person.Mother.Children.Where(sibling => !sibling.Equals(person)) :
-                        new List<Person>();
+                    return GetSiblings(person);
                 case Relationship.BrotherInLaw:
-                    return GetRelations(person, Relationship.Siblings)
-                        .Where(sibling => (sibling.IsFemale && sibling.Spouse != null))
-                        .Select(sister => sister.Spouse)
-                        .Concat((person.Spouse?.Mother == null) ?
-                            new List<Person>() :
-                            GetRelations(person.Spouse, Relationship.Siblings).Where(spouseSibling => spouseSibling.IsMale));
+                    return GetBrothersInLaw(person);
                 case Relationship.SisterInLaw:
-                    return GetRelations(person, Relationship.Siblings)
-                        .Where(sibling => (sibling.IsMale && sibling.Spouse != null))
-                        .Select(sibling => sibling.Spouse)
-                        .Concat(person.Spouse?.Mother == null ?
-                            new List<Person>() : 
-                            GetRelations(person.Spouse, Relationship.Siblings).Where(spouseSibling => spouseSibling.IsFemale));
+                    return GetSistersInLaw(person);
                 case Relationship.MaternalAunt:
-                    return GetRelations(person.Mother, Relationship.Siblings)
-                        .Where(sibling => sibling.IsFemale);
+                    return GetMaternalAunts(person);
                 case Relationship.PaternalAunt:
-                    return GetRelations(person.Father, Relationship.Siblings)
-                        .Where(sibling => sibling.IsFemale);
+                    return GetPaternalAunts(person);
                 case Relationship.MaternalUncle:
-                    return GetRelations(person.Mother, Relationship.Siblings)
-                        .Where(sibling => sibling.IsMale);
+                    return GetMaternalUncles(person);
                 case Relationship.PaternalUncle:
-                    return GetRelations(person.Father, Relationship.Siblings)
-                        .Where(sibling => sibling.IsMale);
+                    return GetPaternalUncles(person);
                 default:
                     throw new NotImplementedException($"Unsupported relationship {relationship}");
             }
+        }
+
+        private static IEnumerable<Person> GetSons(Person person)
+        {
+            return person.Children.Where(child => child.IsMale);
+        }
+
+        private static IEnumerable<Person> GetDaughters(Person person)
+        {
+            return person.Children.Where(child => child.IsFemale);
+        }
+
+        private static IEnumerable<Person> GetSiblings(Person person)
+        {
+            return (person.Mother != null)
+                ? person.Mother.Children.Where(sibling => !sibling.Equals(person))
+                : new List<Person>();
+        }
+
+        private IEnumerable<Person> GetBrothersInLaw(Person person)
+        {
+            Func<Person, bool> sisterHasSpouse()
+            {
+                return sibling => (sibling.IsFemale && sibling.HasSpouse);
+            }
+
+            return GetSiblings(person)
+                .Where(sisterHasSpouse())
+                .Select(sister => sister.Spouse)
+                .Concat((person.Spouse?.Mother == null)
+                    ? new List<Person>()
+                    : GetSiblings(person.Spouse).Where(spouseSibling => spouseSibling.IsMale));
+        }
+
+        private IEnumerable<Person> GetSistersInLaw(Person person)
+        {
+            Func<Person, bool> brotherHasSpouse()
+            {
+                return sibling => (sibling.IsMale && sibling.HasSpouse);
+            }
+
+            return GetSiblings(person)
+                .Where(brotherHasSpouse())
+                .Select(sibling => sibling.Spouse)
+                .Concat(person.Spouse?.Mother == null
+                    ? new List<Person>()
+                    : GetSiblings(person.Spouse).Where(spouseSibling => spouseSibling.IsFemale));
+        }
+
+        private IEnumerable<Person> GetPaternalUncles(Person person)
+        {
+            return GetSiblings(person.Father)
+                .Where(sibling => sibling.IsMale);
+        }
+
+        private IEnumerable<Person> GetMaternalAunts(Person person)
+        {
+            return GetSiblings(person.Mother)
+                .Where(sibling => sibling.IsFemale);
+        }
+
+        
+        private IEnumerable<Person> GetPaternalAunts(Person person)
+        {
+            return GetSiblings(person.Father)
+                .Where(sibling => sibling.IsFemale);
+        }
+
+        private IEnumerable<Person> GetMaternalUncles(Person person)
+        {
+            return GetSiblings(person.Mother)
+                .Where(sibling => sibling.IsMale);
         }
     }
 }
