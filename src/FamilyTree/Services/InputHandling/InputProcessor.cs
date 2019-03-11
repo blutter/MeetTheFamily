@@ -87,34 +87,10 @@ namespace FamilyTree.Services.InputHandling
                 switch (command)
                 {
                     case Command.AddChild:
-                        if (operands.Count == 3)
-                        {
-                            var motherName = operands[0];
-                            var childName = operands[1];
-                            if (Enum.TryParse<Gender>(operands[2], out var gender))
-                            {
-                                _modelProcessor.AddChild(motherName, childName, gender);
-                            }
-
-                            Console.WriteLine("CHILD_ADDED");
-                        }
-
+                        HandleAddChildOperation(operands);
                         break;
                     case Command.GetRelationship:
-                        if (operands.Count == 2)
-                        {
-                            var name = operands[0];
-                            var relationshipStr = operands[1];
-                            if (!String.IsNullOrWhiteSpace(relationshipStr) &&
-                                Enum.TryParse<Relationship>(relationshipStr.Replace("-", ""), out var relationship))
-                            {
-                                var relations = _modelProcessor.GetRelationsForPerson(name, relationship).ToList();
-                                Console.WriteLine(relations.Count > 0
-                                    ? String.Join(" ", relations.Select(person => person.Name))
-                                    : "NONE");
-                            }
-                        }
-
+                        HandleGetRelationshipOperation(operands);
                         break;
                     default:
                         ThrowInvalidCommand(command, operands);
@@ -133,6 +109,39 @@ namespace FamilyTree.Services.InputHandling
             catch (Exception e)
             {
                 ThrowInvalidCommand(command, operands, e);
+            }
+        }
+
+        private void HandleAddChildOperation(List<string> operands)
+        {
+            if (operands.Count == 3)
+            {
+                var motherName = operands[0];
+                var childName = operands[1];
+                if (Enum.TryParse<Gender>(operands[2], out var gender))
+                {
+                    _modelProcessor.AddChild(motherName, childName, gender);
+                }
+
+                Console.WriteLine("CHILD_ADDED");
+            }
+        }
+
+        private void HandleGetRelationshipOperation(List<string> operands)
+        {
+            if (operands.Count == 2)
+            {
+                var name = operands[0];
+                var relationshipStr = operands[1];
+                if (!String.IsNullOrWhiteSpace(relationshipStr) &&
+                    Enum.TryParse<Relationship>(relationshipStr.Replace("-", ""), out var relationship))
+                {
+                    var relations = _modelProcessor.GetRelationsForPerson(name, relationship).ToList();
+
+                    Console.WriteLine(relations.Count > 0
+                        ? String.Join(" ", relations.Select(person => person.Name))
+                        : "NONE");
+                }
             }
         }
 
