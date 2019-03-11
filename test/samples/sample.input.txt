@@ -1,0 +1,16 @@
+GET_RELATIONSHIP "King Arthur" Son
+GET_RELATIONSHIP "Queen Margret" Daughter
+GET_RELATIONSHIP James Siblings
+GET_RELATIONSHIP Louis Siblings
+GET_RELATIONSHIP Rose Brother-In-Law
+GET_RELATIONSHIP Dominique Brother-In-Law
+GET_RELATIONSHIP Ted Brother-In-Law
+GET_RELATIONSHIP Helen Sister-In-Law
+GET_RELATIONSHIP Lily Sister-In-Law
+GET_RELATIONSHIP James Sister-In-Law
+GET_RELATIONSHIP James Maternal-Aunt
+GET_RELATIONSHIP Ginny Maternal-Aunt
+GET_RELATIONSHIP Ginny Paternal-Aunt
+GET_RELATIONSHIP James Maternal-Uncle
+GET_RELATIONSHIP Aster Maternal-Uncle
+GET_RELATIONSHIP Molly Paternal-Uncle
