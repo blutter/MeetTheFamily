@@ -147,7 +147,7 @@ namespace FamilyTree.Services.InputHandling
 
         private void ThrowInvalidCommand(Command command, List<string> operands, Exception innerException = null)
         {
-            throw new Exception($"Invalid command. Type {command} with operands {string.Join(", ", operands)}", innerException);
+            throw new InvalidOperationException($"Invalid command. Type {command} with operands {string.Join(", ", operands)}", innerException);
         }
     }
 }
