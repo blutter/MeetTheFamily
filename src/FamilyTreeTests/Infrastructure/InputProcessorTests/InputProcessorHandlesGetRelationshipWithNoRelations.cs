@@ -9,6 +9,7 @@ using Xunit;
 
 namespace FamilyTreeTests.Infrastructure.InputProcessorTests
 {
+    [Collection("Sequential")]
     public class InputProcessorHandlesGetRelationshipWithNoRelations
     {
         private readonly IInputProcessor _inputProcessor;

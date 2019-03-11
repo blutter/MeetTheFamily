@@ -7,6 +7,7 @@ using Xunit;
 
 namespace FamilyTreeTests.Infrastructure.InputProcessorTests
 {
+    [Collection("Sequential")]
     public class InputProcessorHandlesGetRelationshipWithUnknownPerson
     {
         private readonly IInputProcessor _inputProcessor;

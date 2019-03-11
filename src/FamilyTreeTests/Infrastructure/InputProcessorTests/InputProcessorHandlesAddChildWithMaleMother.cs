@@ -8,6 +8,7 @@ using Xunit;
 
 namespace FamilyTreeTests.Infrastructure.InputProcessorTests
 {
+    [Collection("Sequential")]
     public class InputProcessorHandlesAddChildWithMaleMother
     {
         private readonly IInputProcessor _inputProcessor;
